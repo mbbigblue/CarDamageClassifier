@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
-<title>Upload File</title>
-<h1>Upload File</h1>
-=======
 <html>
 <head>
     <!--<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='static/styles/main.css') }}">-->
@@ -26,15 +22,11 @@
 <!--<div class="logo">Car Damage Classifier</div>-->
         <!--<div class ="GFG">Car Damage Classifier</div>-->
     <div id ="geeks">Upload Photo</p></div>
->>>>>>> init
 <a href="{{ url_for('upload_file') }}">Upload</a> /
 <a href="{{ url_for('manage_file') }}">Manage</a>
 <hr>
 
-<<<<<<< HEAD
-=======
 
->>>>>>> init
 <form method="POST" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     {{ form.photo(multiple="multiple")}}
@@ -46,10 +38,6 @@
 
 {% if success %}
 <br>
-<<<<<<< HEAD
-<p>Upload Success!</p>
-{% endif %}
-=======
 <p class="logo">Photo has been uploaded successfully!</p>
 {% endif %}
 </center>
@@ -57,4 +45,3 @@
 </div>
 </body>
 </html>
->>>>>>> init
