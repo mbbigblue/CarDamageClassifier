@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<<<<<<< HEAD
+<title>Upload File</title>
+<h1>Upload File</h1>
+=======
+<html>
+<head>
+    <!--<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='static/styles/main.css') }}">-->
+    <title>Car Damage Classifier</title>
+</head>
+
+<body>
+
+<header>
+      <div class="container">
+          <center><h1 class="logo; center">Car Damage Classifier</h1></center>
+      </div>
+    </header>
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+    </div>
+<div>
+    <div class="main">
+<center>
+<!--<div class="logo">Car Damage Classifier</div>-->
+        <!--<div class ="GFG">Car Damage Classifier</div>-->
+    <div id ="geeks">Upload Photo</p></div>
+>>>>>>> init
+<a href="{{ url_for('upload_file') }}">Upload</a> /
+<a href="{{ url_for('manage_file') }}">Manage</a>
+<hr>
+
+<<<<<<< HEAD
+=======
+
+>>>>>>> init
+<form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    {{ form.photo(multiple="multiple")}}
+    {% for error in form.photo.errors %}
+        <span style="color: red;">{{ error }}</span>
+    {% endfor %}
+    {{ form.submit }}
+</form>
+
+{% if success %}
+<br>
+<<<<<<< HEAD
+<p>Upload Success!</p>
+{% endif %}
+=======
+<p class="logo">Photo has been uploaded successfully!</p>
+{% endif %}
+</center>
+</div>
+</div>
+</body>
+</html>
+>>>>>>> init
