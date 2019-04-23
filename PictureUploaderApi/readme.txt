@@ -1,26 +1,12 @@
 #
-<<<<<<< HEAD
-#
-#
 # 1. Install Anaconda 2019.03 with Python 3.7 version
 #
-#
-#
-=======
-# 1. Install Anaconda 2019.03 with Python 3.7 version
-#
-#
->>>>>>> init
 # 2. conda create --no-default-packages -n myenv python
 #
 # 3. source activate myenv
 #
 # 4. conda list
 #
-<<<<<<< HEAD
-#
-=======
->>>>>>> init
 # 5. install following packages from anaconda web(hint: package flask-dropzone has
 # to be installed inside with pip as this is not available in conda):
 #
