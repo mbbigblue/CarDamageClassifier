@@ -3,7 +3,7 @@
 #
 # 2. conda create --no-default-packages -n myenv python
 #
-# 3. source activate myenv
+# 3. conda activate myenv
 #
 # 4. conda list
 #
