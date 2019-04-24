@@ -35,6 +35,8 @@ learner_damage = load_learner(DIR_DAMAGE)
 learner_side = load_learner(DIR_DAMAGE_SIDE)
 learner_level = load_learner(DIR_DAMAGE_LEVEL)
 
+data = {}
+
 
 class UploadForm(FlaskForm):
     photo = FileField(validators=[FileAllowed(photos, u'Image Only!'), FileRequired(u'Choose a file!')])
@@ -57,6 +59,7 @@ def upload_file():
             open_name = 'admin' + str(time.time())
             name = hashlib.md5(open_name.encode('utf-8')).hexdigest()[:15]
             photos.save(filename, name=name + '.')
+            data[filename] = {'pred_class': 'Unclassified'}
         success = True
     else:
         success = False
@@ -66,7 +69,7 @@ def upload_file():
 @app.route('/manage')
 def manage_file():
     files_list = os.listdir(app.config['UPLOADED_PHOTOS_DEST'])
-    return render_template('manage.html', files_list=files_list)
+    return render_template('manage.html', files_list=files_list, data=data)
 
 
 @app.route('/open/<filename>')
@@ -76,6 +79,7 @@ def open_file(filename):
     img = open_image(path)
     pred_class, pred_idx, outputs = learner_damage.predict(img)
     print_stats('CAR DAMAGE', learner_damage.data.classes, pred_class, pred_idx, outputs)
+    data.update({filename: str(pred_class)})
 
     if pred_idx.item() == 0:
         # Car is damaged, make predictions about the details
@@ -83,6 +87,11 @@ def open_file(filename):
         print_stats('CAR DAMAGE SIDE', learner_side.data.classes, side_class, side_idx, side_outputs)
         level_class, level_idx, level_outputs = learner_level.predict(img)
         print_stats('CAR DAMAGE LEVEL', learner_level.data.classes, level_class, level_idx, level_outputs)
+
+        data.update({filename: str(pred_class) + " " +
+                               str(side_class) + " " +
+                               str(level_class)})
+
         return render_template('browser.html', file_url=file_url, filename=filename,
                                pred_class=pred_class, reliability=outputs[pred_idx],
                                side_class=side_class, side_reliability=side_outputs[side_idx],
@@ -96,6 +105,7 @@ def open_file(filename):
 def delete_file(filename):
     file_path = photos.path(filename)
     os.remove(file_path)
+    del data[filename]
     return redirect(url_for('manage_file'))
 
 

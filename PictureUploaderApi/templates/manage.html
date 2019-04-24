@@ -31,6 +31,7 @@ table, th, td {
         <th>Pic Name</th>
         <th>Open</th>
         <th>Delete</th>
+        <th>Recognition Details</th>
     </tr>
 
 {% for photo in files_list %}
@@ -38,6 +39,7 @@ table, th, td {
         <th> {{ photo }}</th>
         <th> <a href="{{ url_for('open_file', filename=photo) }}">open</a> </th>
         <th> <a href="{{ url_for('delete_file', filename=photo) }}">del</a> </th>
+        <th> {{ data[photo] }} </th>
     </tr>
 
 {% endfor %}
