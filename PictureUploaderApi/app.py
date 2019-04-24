@@ -76,7 +76,21 @@ def open_file(filename):
     img = open_image(path)
     pred_class, pred_idx, outputs = learner_damage.predict(img)
     print_stats('CAR DAMAGE', learner_damage.data.classes, pred_class, pred_idx, outputs)
-    return render_template('browser.html', file_url=file_url)
+
+    if pred_idx.item() == 0:
+        # Car is damaged, make predictions about the details
+        side_class, side_idx, side_outputs = learner_side.predict(img)
+        print_stats('CAR DAMAGE SIDE', learner_side.data.classes, side_class, side_idx, side_outputs)
+        level_class, level_idx, level_outputs = learner_level.predict(img)
+        print_stats('CAR DAMAGE LEVEL', learner_level.data.classes, level_class, level_idx, level_outputs)
+        return render_template('browser.html', file_url=file_url,
+                           pred_class=pred_class, reliability=outputs[pred_idx],
+                           side_class=side_class, side_reliability=side_outputs[side_idx],
+                           level_class=level_class, level_reliability=level_outputs[level_idx])
+    else:
+        return render_template('browser.html', file_url=file_url, damaged=pred_idx.item(),
+                               pred_class=pred_class, reliability=outputs[pred_idx])
+
 
 
 @app.route('/delete/<filename>')

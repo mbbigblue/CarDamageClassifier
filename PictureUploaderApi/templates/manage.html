@@ -1,15 +1,48 @@
 <!DOCTYPE html>
+<html>
 <head>
      <!--<style type=text/css>{{ get_resource_as_string('static/styles/bootstrap.css') }}</style>-->
-    <center><h1>Results & Photo Manager</h1></center>
+    <center><h1>Car Damage Classifier</h1></center>
+    <style>
+body {
+  background-color: white;
+}
+
+h1 {
+  color: maroon;
+  margin-left: 40px;
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+    </style>
 </head>
 
-<a href="{{ url_for('upload_file') }}">Upload</a> /
-<a href="{{ url_for('manage_file') }}">Manage</a>
+<body>
+<center>
+<a href="{{ url_for('upload_file') }}">Main</a> /
+<a href="{{ url_for('manage_file') }}">Cars</a>
+
 <hr>
 
+<table style='width:100'>
+    <tr>
+        <th>Pic Name</th>
+        <th>Open</th>
+        <th>Delete</th>
+    </tr>
+
 {% for photo in files_list %}
-    - {{ photo }}
-    <a href="{{ url_for('open_file', filename=photo) }}">open</a>
-    <a href="{{ url_for('delete_file', filename=photo) }}">del</a><br>
+    <tr>
+        <th> {{ photo }}</th>
+        <th> <a href="{{ url_for('open_file', filename=photo) }}">open</a> </th>
+        <th> <a href="{{ url_for('delete_file', filename=photo) }}">del</a> </th>
+        <!--<th> {{classes}}, {{output}} </th>-->
+    </tr>
+
 {% endfor %}
+</table>
+    </center>
+</body>
+</html>

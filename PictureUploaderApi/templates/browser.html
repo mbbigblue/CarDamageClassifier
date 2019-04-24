@@ -1,16 +1,109 @@
 <!DOCTYPE html>
 <html>
 <center>
-     <title>Photo Browser</title>
+     <title>Car</title>
     <!--<link type="text/css" rel="stylesheet" href="bootstrap.css"/>-->
-    <center></center><h1>Photo Browser</h1></center>
+    <center></center><h1>Car</h1></center>
+
+
+<style>
+body {
+  background-color: white;
+}
+
+h1 {
+  color: maroon;
+  margin-left: 40px;
+}
+<!-- CSS goes in the document HEAD or added to your external stylesheet -->
+<style type="text/css">
+table.gridtable {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+}
+table.gridtable th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #dedede;
+}
+table.gridtable td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #ffffff;
+}
+</style>
+
 </head>
-
-<a href="{{ url_for('upload_file') }}">Upload</a> /
-<a href="{{ url_for('manage_file') }}">Manage</a>
+<body>
+<center>
+<a href="{{ url_for('upload_file') }}">Main</a> /
+<a href="{{ url_for('manage_file') }}">Cars</a>
 <hr>
+    <table class="gridtable">
+    <thead>
+        <tr>
+            <th>Predicted class(00-damage, 01-whole)</th>
+            <th>Reliability(0-1)</th>
+            <th>URL</th>
+        </tr>
+    </thead>
 
-<p>URL: {{ file_url }}</p>
+    <tbody>
+        <tr>
+            <td>{{ pred_class }}</td>
+            <td>{{ reliability }}</td>
+            <td>{{ file_url }}</td>
+        </tr>
+    </tbody>
+    </table>
+
+<br>
 <img src="{{ file_url }}">
+<br>
+    {% if damaged == null %}
+
+    <table class="gridtable">
+    <thead>
+        <tr>
+            <th>Predicted side class(00-front, 01-rear, 02-side)</th>
+            <th>Reliability(0-1)</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>{{ side_class }}</td>
+            <td>{{ side_reliability }}</td>
+        </tr>
+    </tbody>
+    </table>
+<br>
+    <table class="gridtable">
+    <thead>
+        <tr>
+            <th>Predicted level class(01-minor, 02-moderate, 03-severe)</th>
+            <th>Reliability(0-1)</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>{{ level_class }}</td>
+            <td>{{ level_reliability }}</td>
+        </tr>
+    </tbody>
+    </table>
+    {% endif %}
+</center>
+</body>
+
 </html>
 
