@@ -83,14 +83,13 @@ def open_file(filename):
         print_stats('CAR DAMAGE SIDE', learner_side.data.classes, side_class, side_idx, side_outputs)
         level_class, level_idx, level_outputs = learner_level.predict(img)
         print_stats('CAR DAMAGE LEVEL', learner_level.data.classes, level_class, level_idx, level_outputs)
-        return render_template('browser.html', file_url=file_url,
-                           pred_class=pred_class, reliability=outputs[pred_idx],
-                           side_class=side_class, side_reliability=side_outputs[side_idx],
-                           level_class=level_class, level_reliability=level_outputs[level_idx])
+        return render_template('browser.html', file_url=file_url, filename=filename,
+                               pred_class=pred_class, reliability=outputs[pred_idx],
+                               side_class=side_class, side_reliability=side_outputs[side_idx],
+                               level_class=level_class, level_reliability=level_outputs[level_idx])
     else:
-        return render_template('browser.html', file_url=file_url, damaged=pred_idx.item(),
+        return render_template('browser.html', file_url=file_url, filename=filename, noinfo=pred_idx.item(),
                                pred_class=pred_class, reliability=outputs[pred_idx])
-
 
 
 @app.route('/delete/<filename>')

@@ -60,7 +60,7 @@ table.gridtable td {
         <tr>
             <td>{{ pred_class }}</td>
             <td>{{ reliability }}</td>
-            <td>{{ file_url }}</td>
+            <td><a href={{ file_url }}>{{ filename }}</a></td>
         </tr>
     </tbody>
     </table>
@@ -68,7 +68,7 @@ table.gridtable td {
 <br>
 <img src="{{ file_url }}">
 <br>
-    {% if damaged == null %}
+    {% if noinfo == null %}
 
     <table class="gridtable">
     <thead>
