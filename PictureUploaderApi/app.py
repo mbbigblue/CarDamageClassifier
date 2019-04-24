@@ -105,7 +105,7 @@ def open_file(filename):
 def delete_file(filename):
     file_path = photos.path(filename)
     os.remove(file_path)
-    del data[filename]
+    data.pop(filename, None)
     return redirect(url_for('manage_file'))
 
 
