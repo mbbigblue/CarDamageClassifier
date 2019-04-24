@@ -1,6 +1,12 @@
 import os
 import time
 import hashlib
+import numpy as np
+import pandas as pd
+import torch.nn as nn
+
+from fastai.vision import *
+from fastai.metrics import error_rate
 
 from flask import Flask, render_template, redirect, url_for, request
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
@@ -10,6 +16,13 @@ from wtforms import SubmitField
 
 TEMPLATE_DIR = os.path.abspath('../templates/default')
 
+# Directory where model files are (with export.pkl)
+DIR_DAMAGE = Path('./damage-model')
+DIR_DAMAGE_SIDE = Path('./damage-side-model')
+DIR_DAMAGE_LEVEL = Path('./damage-level-model')
+
+defaults.device = torch.device('cpu')
+
 app = Flask(__name__, static_folder=TEMPLATE_DIR)
 app.config['SECRET_KEY'] = 'I have a dream'
 app.config['UPLOADED_PHOTOS_DEST'] = os.getcwd() + '/uploads'
@@ -17,6 +30,10 @@ app.config['UPLOADED_PHOTOS_DEST'] = os.getcwd() + '/uploads'
 photos = UploadSet('photos', IMAGES)
 configure_uploads(app, photos)
 patch_request_class(app)  # set maximum file size, default is 16MB
+
+learner_damage = load_learner(DIR_DAMAGE)
+learner_side = load_learner(DIR_DAMAGE_SIDE)
+learner_level = load_learner(DIR_DAMAGE_LEVEL)
 
 
 class UploadForm(FlaskForm):
@@ -55,6 +72,10 @@ def manage_file():
 @app.route('/open/<filename>')
 def open_file(filename):
     file_url = photos.url(filename)
+    path = 'uploads/' + filename
+    img = open_image(path)
+    pred_class, pred_idx, outputs = learner_damage.predict(img)
+    print_stats('CAR DAMAGE', learner_damage.data.classes, pred_class, pred_idx, outputs)
     return render_template('browser.html', file_url=file_url)
 
 
@@ -63,6 +84,14 @@ def delete_file(filename):
     file_path = photos.path(filename)
     os.remove(file_path)
     return redirect(url_for('manage_file'))
+
+
+def print_stats(header, classes, pred_class, pred_idx, outputs):
+    print(f'======== {header} ========')
+    print('Data classes: ' + str(classes))
+    print('Predicted class: ' + str(pred_class))
+    print('Predicted index: ' + str(pred_idx.item()))
+    print('Outputs: ' + str(outputs))
 
 
 if __name__ == '__main__':
