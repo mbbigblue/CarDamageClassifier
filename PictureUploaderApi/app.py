@@ -91,11 +91,14 @@ def open_file(filename):
         data.update({filename: str(pred_class) + " " +
                                str(side_class) + " " +
                                str(level_class)})
-
+        print("Output: "+str(outputs))
         return render_template('browser.html', file_url=file_url, filename=filename,
                                pred_class=pred_class, reliability=outputs[pred_idx],
+                               classes=learner_damage.data.classes, reliabilities=outputs,
                                side_class=side_class, side_reliability=side_outputs[side_idx],
-                               level_class=level_class, level_reliability=level_outputs[level_idx])
+                               side_classes=learner_side.data.classes, side_reliabilities=side_outputs[:],
+                               level_class=level_class, level_reliability=level_outputs[level_idx],
+                               level_classes=learner_level.data.classes, level_reliabilities=level_outputs[:])
     else:
         return render_template('browser.html', file_url=file_url, filename=filename, noinfo=pred_idx.item(),
                                pred_class=pred_class, reliability=outputs[pred_idx])

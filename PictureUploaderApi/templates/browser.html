@@ -3,7 +3,7 @@
 <center>
      <title>Car</title>
     <!--<link type="text/css" rel="stylesheet" href="bootstrap.css"/>-->
-    <center></center><h1>Car</h1></center>
+    <h1>Car</h1></center>
 
 
 <style>
@@ -39,6 +39,49 @@ table.gridtable td {
 	border-color: #666666;
 	background-color: #ffffff;
 }
+
+/* Style the container with a rounded border, grey background and some padding and margin */
+.container {
+  border: 2px solid #ccc;
+  background-color: #eee;
+  border-radius: 5px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+/* Clear floats after containers */
+.container::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+<!--/* Float images inside the container to the left. Add a right margin, and style the image as a circle */-->
+<!--.container img {-->
+  <!--float: left;-->
+  <!--margin-right: 20px;-->
+  <!--border-radius: 50%;-->
+<!--}-->
+
+/* Increase the font-size of a span element */
+.container span {
+  font-size: 20px;
+  margin-right: 15px;
+}
+
+/* Add media queries for responsiveness. This will center both the text and the image inside the container */
+@media (max-width: 500px) {
+  .container {
+    text-align: center;
+  }
+
+  .container img {
+    margin: auto;
+    float: none;
+    display: block;
+  }
+}
+
 </style>
 
 </head>
@@ -47,7 +90,11 @@ table.gridtable td {
 <a href="{{ url_for('upload_file') }}">Main</a> /
 <a href="{{ url_for('manage_file') }}">Cars</a>
 <hr>
-    <table class="gridtable">
+</center>
+
+ <div class="container">
+     What is predicted?
+      <table class="gridtable">
     <thead>
         <tr>
             <th>Predicted class(00-damage, 01-whole)</th>
@@ -65,10 +112,7 @@ table.gridtable td {
     </tbody>
     </table>
 
-<br>
-<img src="{{ file_url }}">
-<br>
-    {% if noinfo == null %}
+     {% if noinfo == null %}
 
     <table class="gridtable">
     <thead>
@@ -101,9 +145,44 @@ table.gridtable td {
         </tr>
     </tbody>
     </table>
-    {% endif %}
-</center>
-</body>
 
+     {% endif %}
+     <br>
+        <img src="{{ file_url }}">
+     <br>
+</div>
+
+
+    </div>
+<br>
+<div class="container">
+    Details:
+  {% if noinfo == null %}
+    <table class="gridtable">
+    <thead>
+        <tr>
+            <th>General Classes</th>
+            <th>Output</th>
+            <th>Side Classes</th>
+            <th>Side Outputs</th>
+            <th>Level Classes</th>
+            <th>Level Outputs</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>{{ classes }}</td>
+            <td>{{ reliabilities }}</td>
+            <td>{{ side_classes }}</td>
+            <td>{{ side_reliabilities }}</td>
+            <td>{{ level_classes }}</td>
+            <td>{{ level_reliabilities }}</td>
+        </tr>
+    </tbody>
+    </table>
+    {% endif %}
+</div>
+</body>
 </html>
 
